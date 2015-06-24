@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name         = "DCCoreData	"
+  s.name         = "DCCoreData"
   s.version      = "1.0"
   s.summary      = "Use Core Data Simply"
 

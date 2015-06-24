@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		813129DD1ADEE2FE004E56E0 /* Teacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 813129DC1ADEE2FE004E56E0 /* Teacher.m */; };
-		813129E01AE17B86004E56E0 /* NSEntityDescription+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 813129DF1AE17B86004E56E0 /* NSEntityDescription+Extension.m */; };
 		813129E31AE27FE0004E56E0 /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = 813129E21AE27FE0004E56E0 /* Student.m */; };
+		8163394E1B3AE5A800761540 /* DCCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8163394B1B3AE5A800761540 /* DCCoreData.m */; };
+		8163394F1B3AE5A800761540 /* NSEntityDescription+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 8163394D1B3AE5A800761540 /* NSEntityDescription+Extension.m */; };
 		8164133F1ACDF16200ED3DDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8164133E1ACDF16200ED3DDE /* main.m */; };
 		816413421ACDF16200ED3DDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 816413411ACDF16200ED3DDE /* AppDelegate.m */; };
 		816413451ACDF16200ED3DDE /* DCCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 816413431ACDF16200ED3DDE /* DCCoreData.xcdatamodeld */; };
@@ -18,7 +19,6 @@
 		8164134D1ACDF16200ED3DDE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8164134C1ACDF16200ED3DDE /* Images.xcassets */; };
 		816413501ACDF16200ED3DDE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8164134E1ACDF16200ED3DDE /* LaunchScreen.xib */; };
 		8164135C1ACDF16200ED3DDE /* DCCoreDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8164135B1ACDF16200ED3DDE /* DCCoreDataTests.m */; };
-		816413671ACDF17F00ED3DDE /* DCCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 816413661ACDF17F00ED3DDE /* DCCoreData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,10 +34,12 @@
 /* Begin PBXFileReference section */
 		813129DB1ADEE2FE004E56E0 /* Teacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Teacher.h; sourceTree = "<group>"; };
 		813129DC1ADEE2FE004E56E0 /* Teacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Teacher.m; sourceTree = "<group>"; };
-		813129DE1AE17B86004E56E0 /* NSEntityDescription+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEntityDescription+Extension.h"; sourceTree = "<group>"; };
-		813129DF1AE17B86004E56E0 /* NSEntityDescription+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEntityDescription+Extension.m"; sourceTree = "<group>"; };
 		813129E11AE27FE0004E56E0 /* Student.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Student.h; sourceTree = "<group>"; };
 		813129E21AE27FE0004E56E0 /* Student.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Student.m; sourceTree = "<group>"; };
+		8163394A1B3AE5A800761540 /* DCCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCoreData.h; sourceTree = "<group>"; };
+		8163394B1B3AE5A800761540 /* DCCoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCoreData.m; sourceTree = "<group>"; };
+		8163394C1B3AE5A800761540 /* NSEntityDescription+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEntityDescription+Extension.h"; sourceTree = "<group>"; };
+		8163394D1B3AE5A800761540 /* NSEntityDescription+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEntityDescription+Extension.m"; sourceTree = "<group>"; };
 		816413391ACDF16200ED3DDE /* DCCoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DCCoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8164133D1ACDF16200ED3DDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8164133E1ACDF16200ED3DDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -52,8 +54,6 @@
 		816413551ACDF16200ED3DDE /* DCCoreDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DCCoreDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8164135A1ACDF16200ED3DDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8164135B1ACDF16200ED3DDE /* DCCoreDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCCoreDataTests.m; sourceTree = "<group>"; };
-		816413651ACDF17F00ED3DDE /* DCCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCoreData.h; sourceTree = "<group>"; };
-		816413661ACDF17F00ED3DDE /* DCCoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCoreData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +74,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		816339491B3AE5A800761540 /* DCCoreData */ = {
+			isa = PBXGroup;
+			children = (
+				8163394A1B3AE5A800761540 /* DCCoreData.h */,
+				8163394B1B3AE5A800761540 /* DCCoreData.m */,
+				8163394C1B3AE5A800761540 /* NSEntityDescription+Extension.h */,
+				8163394D1B3AE5A800761540 /* NSEntityDescription+Extension.m */,
+			);
+			path = DCCoreData;
+			sourceTree = "<group>";
+		};
 		816413301ACDF16200ED3DDE = {
 			isa = PBXGroup;
 			children = (
@@ -95,14 +106,11 @@
 		8164133B1ACDF16200ED3DDE /* DCCoreData */ = {
 			isa = PBXGroup;
 			children = (
+				816339491B3AE5A800761540 /* DCCoreData */,
 				816413401ACDF16200ED3DDE /* AppDelegate.h */,
 				816413411ACDF16200ED3DDE /* AppDelegate.m */,
 				816413461ACDF16200ED3DDE /* ViewController.h */,
 				816413471ACDF16200ED3DDE /* ViewController.m */,
-				816413651ACDF17F00ED3DDE /* DCCoreData.h */,
-				816413661ACDF17F00ED3DDE /* DCCoreData.m */,
-				813129DE1AE17B86004E56E0 /* NSEntityDescription+Extension.h */,
-				813129DF1AE17B86004E56E0 /* NSEntityDescription+Extension.m */,
 				816413491ACDF16200ED3DDE /* Main.storyboard */,
 				8164134C1ACDF16200ED3DDE /* Images.xcassets */,
 				8164134E1ACDF16200ED3DDE /* LaunchScreen.xib */,
@@ -246,8 +254,8 @@
 				816413421ACDF16200ED3DDE /* AppDelegate.m in Sources */,
 				816413451ACDF16200ED3DDE /* DCCoreData.xcdatamodeld in Sources */,
 				813129E31AE27FE0004E56E0 /* Student.m in Sources */,
-				816413671ACDF17F00ED3DDE /* DCCoreData.m in Sources */,
-				813129E01AE17B86004E56E0 /* NSEntityDescription+Extension.m in Sources */,
+				8163394F1B3AE5A800761540 /* NSEntityDescription+Extension.m in Sources */,
+				8163394E1B3AE5A800761540 /* DCCoreData.m in Sources */,
 				816413481ACDF16200ED3DDE /* ViewController.m in Sources */,
 				8164133F1ACDF16200ED3DDE /* main.m in Sources */,
 			);
