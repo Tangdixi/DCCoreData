@@ -22,7 +22,7 @@
     
     for (NSString *attributeName in self.attributesByName.allKeys) {
         
-        if ([name isEqualToString:attributeName]) {
+        if ([name caseInsensitiveCompare:attributeName] == NSOrderedSame) {
             return YES;
         }
 

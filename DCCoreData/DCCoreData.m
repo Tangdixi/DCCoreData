@@ -14,6 +14,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (readonly, strong, nonatomic) NSManagedObjectContext *temporaryManagedObjectContext;
 
 @end
 
@@ -24,6 +25,7 @@ static NSString * projectModelName = @"";
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize temporaryManagedObjectContext = _temporaryManagedObjectContext;
 
 #pragma mark - Initialization
 
@@ -67,9 +69,29 @@ static NSString * projectModelName = @"";
 
 #pragma mark - Basic Operation 
 
+- (id)createTemporaryManagedObjectWithEntityName:(NSString *)entityName {
+    
+    return [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:self.temporaryManagedObjectContext];
+    
+}
+
+- (void)cleanTemporaryManagedObjectContextCache {
+    
+    [_temporaryManagedObjectContext reset];
+    
+}
+
 - (id)createManagedObjectWithEntityName:(NSString *)entityName {
     
     return [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:self.managedObjectContext];
+    
+}
+
+- (void)updateManagedObject:(NSManagedObject *)managedObject {
+    
+    [self.managedObjectContext refreshObject:managedObject mergeChanges:YES];
+    
+    [self commitAllChanges];
     
 }
 
@@ -84,7 +106,7 @@ static NSString * projectModelName = @"";
     // Commit the change and save it
     //
     [self commitAllChanges];
-    
+
 }
 
 - (void)insertManagedObjects:(NSArray *)managedObjects {
@@ -97,6 +119,14 @@ static NSString * projectModelName = @"";
 }
 
 #pragma mark - Delete Methods
+
+- (void)deleteAllManagedObjectsInEntity:(NSString *)entityName {
+    
+    NSArray *allManagedObjects = [self fetchManagedObjectsWithEntityName:entityName];
+    
+    [self deleteManagedObjects:allManagedObjects];
+    
+}
 
 - (void)deleteManagedObject:(NSManagedObject *)managedObject {
     
@@ -162,8 +192,12 @@ static NSString * projectModelName = @"";
     NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", attribute, value];
-    fetchRequest.predicate = predicate;
+    if (attribute) {
+    
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", attribute, value];
+        fetchRequest.predicate = predicate;
+
+    }
     
     if (sortKey) {
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:sortKey ascending:ascending];
@@ -172,6 +206,49 @@ static NSString * projectModelName = @"";
     
     NSError *error = nil;
     return [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+}
+
+- (id)createManagedObjectFromJSON:(NSDictionary *)JSONDictionary
+                       intoEntity:(NSString *)entityName {
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:[entityName capitalizedString] inManagedObjectContext:self.managedObjectContext];
+    
+    NSManagedObject *managedObject = [[NSManagedObject alloc]initWithEntity:entity insertIntoManagedObjectContext:self.managedObjectContext];
+    
+    if (entity) {
+        
+        for (NSString *attribute in JSONDictionary.allKeys) {
+            
+            if ([entity hasAttribute:attribute]) {
+                [managedObject setValue:JSONDictionary[attribute] forKey:attribute];
+            }
+            else if ([attribute isEqualToString:@"id"]) {
+                
+                [managedObject setValue:JSONDictionary[@"id"] forKey:@"identifier"];
+                
+            }
+            else {
+                if (! self.ignoreUnknowAttribute) {
+                    
+                    NSLog(@"DCCoreData Error: Unknow attribute.\n You can set the 'ignoreUnknownAttribute' property to 'YES' or Check your JSON dictionay");
+                    
+                    // roll back the previous change
+                    // To do: This part may need a undo managed
+                    //
+                    [self.managedObjectContext deleteObject:managedObject];
+                    
+                    return nil;
+                    }
+                }
+            
+            }
+        
+        return managedObject;
+        
+    }
+    
+    return nil;
     
 }
 
@@ -191,9 +268,17 @@ static NSString * projectModelName = @"";
         
         for (NSString *attribute in JSONDictionary.allKeys) {
             
-            if ([entity hasAttribute:attribute]) {
-                [managedObject setValue:JSONDictionary[attribute] forKey:attribute];
+            if ([attribute isEqualToString:@"id"]) {
+                
+                [managedObject setValue:JSONDictionary[@"id"] forKey:@"identifier"];
+                
             }
+            else if ([entity hasAttribute:attribute]) {
+                
+                [managedObject setValue:JSONDictionary[attribute] forKey:attribute];
+                
+            }
+            
             else {
                 if (! self.ignoreUnknowAttribute) {
                     
@@ -205,6 +290,11 @@ static NSString * projectModelName = @"";
                     [self.managedObjectContext deleteObject:managedObject];
                     
                     return ;
+                }
+                else {
+                    
+                    continue ;
+                    
                 }
             }
 
@@ -218,7 +308,9 @@ static NSString * projectModelName = @"";
 #pragma mark - Commit Change
 
 - (void)commitAllChanges {
+    
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    
     if (managedObjectContext != nil) {
         NSError *error = nil;
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
@@ -313,6 +405,20 @@ static NSString * projectModelName = @"";
     
 }
 
-
+- (NSManagedObjectContext *)temporaryManagedObjectContext {
+    
+    if (_temporaryManagedObjectContext != nil) {
+        return _temporaryManagedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
+    if (!coordinator) {
+        return nil;
+    }
+    _temporaryManagedObjectContext = [[NSManagedObjectContext alloc] init];
+    [_temporaryManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    return _temporaryManagedObjectContext;
+    
+}
 
 @end
